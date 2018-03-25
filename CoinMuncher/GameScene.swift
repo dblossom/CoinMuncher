@@ -26,7 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var coinSize = CGSize.zero
     let coinSound = SKAction.playSoundFileNamed("coin10.wav", waitForCompletion: false)
 
-    var score = 0
+    var coinsCollected = 0
 
     var gapBetweenObstacles: CGFloat = 5
     var scrollSpeed: CGFloat = 1.0
@@ -43,7 +43,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startGame() {
         setupPhysics()
         setupMuncher()
-        setupLabels()
+        setupCoinsCollectedLabels()
         setupBackground()
 
         anchorPoint = CGPoint.zero
@@ -87,23 +87,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(background)
     }
 
-    func setupLabels() {
-        let scoreTextLabel: SKLabelNode = SKLabelNode(text: "score")
-        scoreTextLabel.position = CGPoint(x: 14.0, y: frame.size.height - 20.0)
-        scoreTextLabel.horizontalAlignmentMode = .left
-        scoreTextLabel.fontName = "Courier-Bold"
-        scoreTextLabel.fontSize = 14.0
-        scoreTextLabel.zPosition = 20
-        addChild(scoreTextLabel)
+    func setupCoinsCollectedLabels() {
+        let coinsCollectedLabel: SKLabelNode = SKLabelNode(text: "Coins Collected")
+        coinsCollectedLabel.position = CGPoint(x: 14.0, y: frame.size.height - 20.0)
+        coinsCollectedLabel.horizontalAlignmentMode = .left
+        coinsCollectedLabel.fontName = "Courier-Bold"
+        coinsCollectedLabel.fontSize = 14.0
+        coinsCollectedLabel.zPosition = 20
+        addChild(coinsCollectedLabel)
 
-        let scoreLabel: SKLabelNode = SKLabelNode(text: "0")
-        scoreLabel.position = CGPoint(x: 14.0, y: frame.size.height - 40.0)
-        scoreLabel.horizontalAlignmentMode = .left
-        scoreLabel.fontName = "Courier-Bold"
-        scoreLabel.fontSize = 18.0
-        scoreLabel.name = "scoreLabel"
-        scoreLabel.zPosition = 20
-        addChild(scoreLabel)
+        let coinsLabel: SKLabelNode = SKLabelNode(text: "0")
+        coinsLabel.position = CGPoint(x: 14.0, y: frame.size.height - 40.0)
+        coinsLabel.horizontalAlignmentMode = .left
+        coinsLabel.fontName = "Courier-Bold"
+        coinsLabel.fontSize = 18.0
+        coinsLabel.name = "coinsLabel"
+        coinsLabel.zPosition = 20
+        addChild(coinsLabel)
     }
 
     func gameOver() {
@@ -121,7 +121,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func restartGame() {
         self.removeAllActions()
         self.removeAllChildren()
-        score = 0
+        coinsCollected = 0
         startGame()
     }
 
@@ -257,9 +257,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
 
-    func updateScore() {
-        if let scoreLabel = childNode(withName: "scoreLabel") as? SKLabelNode {
-            scoreLabel.text = String(format: "%04d", score)
+    func updateCoinsCollected() {
+        if let coinsLabel = childNode(withName: "coinsLabel") as? SKLabelNode {
+            coinsLabel.text = String(format: "%04d", coinsCollected)
         }
     }
 
@@ -279,7 +279,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         //updateCoin(withScrollAmount: currentScrollAmount)
         updateObstacles(withScrollAmount: currentScrollAmount)
-        updateScore()
+        updateCoinsCollected()
     }
 
     func didBegin(_ contact: SKPhysicsContact) {
@@ -305,10 +305,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 coins.remove(at: coinIndex)
             }
             run(coinSound)
-            score += score
+            coinsCollected += 1
             scrollSpeed += 0.1
             print(scrollSpeed)
-            print(score)
+            print(coinsCollected)
         }
     }
 }
