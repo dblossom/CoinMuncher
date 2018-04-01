@@ -14,6 +14,8 @@ class ClickToRestartLabel: SKLabelNode {
         super.init()
         self.fontName = "AmericanTypewriter-Bold"
         self.text = "Click To Restart"
+        self.name = "restartLabel"
+        self.isUserInteractionEnabled = true
         self.fontSize = 20
         self.fontColor = SKColor.black
         self.position = atPosition

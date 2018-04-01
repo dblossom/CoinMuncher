@@ -88,16 +88,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func setupCoinsCollectedLabels() {
-        let coinsCollectedLabel: SKLabelNode = SKLabelNode(text: "Coins Collected")
+        let coinsCollectedLabel: SKLabelNode = SKLabelNode(text: "Coins Collected:")
         coinsCollectedLabel.position = CGPoint(x: 14.0, y: frame.size.height - 20.0)
         coinsCollectedLabel.horizontalAlignmentMode = .left
         coinsCollectedLabel.fontName = "Courier-Bold"
-        coinsCollectedLabel.fontSize = 14.0
+        coinsCollectedLabel.fontSize = 16.0
         coinsCollectedLabel.zPosition = 20
         addChild(coinsCollectedLabel)
 
         let coinsLabel: SKLabelNode = SKLabelNode(text: "0")
-        coinsLabel.position = CGPoint(x: 14.0, y: frame.size.height - 40.0)
+        coinsLabel.position = CGPoint(x: 170.0, y: frame.size.height - 20.0)
         coinsLabel.horizontalAlignmentMode = .left
         coinsLabel.fontName = "Courier-Bold"
         coinsLabel.fontSize = 18.0
@@ -143,9 +143,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameRunning {
             muncher.physicsBody?.affectedByGravity = true
             muncher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-            muncher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 150))
+            muncher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 125))
         } else if !gameRunning {
-            restartGame()
+
+            if let label = childNode(withName: "restartLabel") as? SKLabelNode {
+
+                print(tapGesture.location(in: self.view).y)
+                print("\(label.frame.minY) \(label.frame.maxY)")
+
+                if tapGesture.location(in: self.view).x > label.frame.minX &&
+                    tapGesture.location(in: self.view).x < label.frame.maxX &&
+                    tapGesture.location(in: self.view).y+label.fontSize > label.frame.minY &&
+                    tapGesture.location(in: self.view).y+15 < label.frame.maxY {
+
+                    restartGame()
+                }
+            }
         }
     }
 
@@ -243,7 +256,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             // temp not allow -80 for bottom
             // because if block is on bottom coin will be too low
-            let coinYOffset: [CGFloat] = [0, 80]
+            let coinYOffset: [CGFloat] = [-80, 0, 80]
 
             let coinX = coinXOffset[Int(ranX)]
             let coinY = coinYOffset[Int(ranY)]
@@ -259,7 +272,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func updateCoinsCollected() {
         if let coinsLabel = childNode(withName: "coinsLabel") as? SKLabelNode {
-            coinsLabel.text = String(format: "%04d", coinsCollected)
+            coinsLabel.text = String(coinsCollected)
         }
     }
 
@@ -277,7 +290,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let scrollAdjustment = CGFloat(elapsedTime / expectedElapsedTime)
         let currentScrollAmount = scrollSpeed * scrollAdjustment
 
-        //updateCoin(withScrollAmount: currentScrollAmount)
         updateObstacles(withScrollAmount: currentScrollAmount)
         updateCoinsCollected()
     }
@@ -287,11 +299,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if contact.bodyA.categoryBitMask == PhysicsCategory.obstacle &&
             contact.bodyB.categoryBitMask == PhysicsCategory.muncher {
 
-            print("didBegin() -- IF -- collision ?")
-
             muncher.physicsBody?.affectedByGravity = true
-
-            muncher.physicsBody?.applyForce(CGVector(dx: -10, dy: -10))
+            muncher.physicsBody?.applyForce(CGVector(dx: -20, dy: -10))
 
             gameOver()
         }
