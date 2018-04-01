@@ -27,6 +27,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let coinSound = SKAction.playSoundFileNamed("coin10.wav", waitForCompletion: false)
 
     var coinsCollected = 0
+    var highScore = 0
 
     var gapBetweenObstacles: CGFloat = 5
     var scrollSpeed: CGFloat = 1.0
@@ -44,6 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupPhysics()
         setupMuncher()
         setupCoinsCollectedLabels()
+        setupHighScoreLabel()
         setupBackground()
 
         anchorPoint = CGPoint.zero
@@ -88,7 +90,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func setupCoinsCollectedLabels() {
-        let coinsCollectedLabel: SKLabelNode = SKLabelNode(text: "Coins Collected:")
+        let coinsCollectedLabel: SKLabelNode = SKLabelNode(text: "Coins Collected: ")
         coinsCollectedLabel.position = CGPoint(x: 14.0, y: frame.size.height - 20.0)
         coinsCollectedLabel.horizontalAlignmentMode = .left
         coinsCollectedLabel.fontName = "Courier-Bold"
@@ -104,6 +106,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         coinsLabel.name = "coinsLabel"
         coinsLabel.zPosition = 20
         addChild(coinsLabel)
+    }
+    
+    func setupHighScoreLabel() {
+        let highScoreLabel: SKLabelNode = SKLabelNode(text: "High Score: ")
+        highScoreLabel.position = CGPoint(x: 670.0, y: frame.size.height - 20.0)
+        highScoreLabel.horizontalAlignmentMode = .right
+        highScoreLabel.fontName = "Courier-Bold"
+        highScoreLabel.fontSize = 16.0
+        highScoreLabel.zPosition = 20
+        addChild(highScoreLabel)
+        
+        let highScore: SKLabelNode = SKLabelNode(text: String(self.highScore))
+        highScore.position = CGPoint(x: 700, y: frame.size.height - 20.0)
+        highScore.horizontalAlignmentMode = .right
+        highScore.fontName = "Courier-Bold"
+        highScore.fontSize = 18.0
+        highScore.name = "highScore"
+        highScore.zPosition = 20
+        addChild(highScore)
     }
 
     func gameOver() {
@@ -147,9 +168,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if !gameRunning {
 
             if let label = childNode(withName: "restartLabel") as? SKLabelNode {
-
-                print(tapGesture.location(in: self.view).y)
-                print("\(label.frame.minY) \(label.frame.maxY)")
 
                 if tapGesture.location(in: self.view).x > label.frame.minX &&
                     tapGesture.location(in: self.view).x < label.frame.maxX &&
@@ -254,7 +272,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             let coinXOffset: [CGFloat] = [-85, 0, 85]
 
-            // temp not allow -80 for bottom
             // because if block is on bottom coin will be too low
             let coinYOffset: [CGFloat] = [-80, 0, 80]
 
@@ -273,6 +290,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func updateCoinsCollected() {
         if let coinsLabel = childNode(withName: "coinsLabel") as? SKLabelNode {
             coinsLabel.text = String(coinsCollected)
+        }
+        updateHighScore()
+    }
+    
+    func updateHighScore() {
+        if coinsCollected > highScore {
+            if let highScoreLabel = childNode(withName: "highScore") as? SKLabelNode {
+                highScore = coinsCollected
+                highScoreLabel.text = String(highScore)
+            }
         }
     }
 
