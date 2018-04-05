@@ -13,13 +13,13 @@ class ClickToRestartLabel: SKLabelNode {
     init(atPosition: CGPoint) {
         super.init()
         self.fontName = "AmericanTypewriter-Bold"
-        self.text = "Click To Restart"
+        self.text = "Click Here To Restart"
         self.name = "restartLabel"
         self.isUserInteractionEnabled = true
-        self.fontSize = 20
-        self.fontColor = SKColor.black
+        self.fontSize = 16
+        self.fontColor = SKColor.white
         self.position = atPosition
-        self.zPosition = 11
+        self.zPosition = 31
     }
 
     required init?(coder aDecoder: NSCoder) {

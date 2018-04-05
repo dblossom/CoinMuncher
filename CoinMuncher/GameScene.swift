@@ -26,6 +26,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var coinSize = CGSize.zero
     let coinSound = SKAction.playSoundFileNamed("coin10.wav", waitForCompletion: false)
 
+    //let jumpSound = SKAction.playSoundFileNamed("Jump.wav", waitForCompletion: false)
+
     var coinsCollected = 0
     var highScore = 0
 
@@ -130,13 +132,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func gameOver() {
         gameRunning = false
         scrollSpeed = 0
-        updateObstacles(withScrollAmount: 0.0)
-
+        gameOverBackground()
         restartLabel()
+    }
+    
+    func gameOverBackground() {
+        let gameOverBackground = UIColor.black.withAlphaComponent(0.4)
+        let gameOver = GameOver(color: gameOverBackground, size: frame.size)
+        gameOver.anchorPoint = CGPoint.zero
+        gameOver.position = CGPoint.zero
+        gameOver.zPosition = 30
+        gameOver.name = "gameOverOverlay"
+        gameOver.display(message: "Game Over!")
+        addChild(gameOver)
     }
 
     func restartLabel() {
-        addChild(ClickToRestartLabel(atPosition: CGPoint(x: frame.midX, y: frame.midY)))
+        addChild(ClickToRestartLabel(atPosition: CGPoint(x: frame.midX, y: frame.midY-75)))
     }
 
     func restartGame() {
@@ -162,6 +174,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     @objc func handleTap(tapGesture: UITapGestureRecognizer) {
         if gameRunning {
+            //run(jumpSound)
             muncher.physicsBody?.affectedByGravity = true
             muncher.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             muncher.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 125))
@@ -169,10 +182,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             if let label = childNode(withName: "restartLabel") as? SKLabelNode {
 
+                // This is werid --
+                // if tap is > minX and < maxX for X-axis we are good
+                // y-axis had a big discrepancy between label.position.y or label.frame.[min/max]Y
+                // In the end, the tap location for Y does happen to be around the x-axis
+                // so, we use that. My testing is being done via iPhone 8P simulator. I fear
+                // other devices will not work correctly.
                 if tapGesture.location(in: self.view).x > label.frame.minX &&
                     tapGesture.location(in: self.view).x < label.frame.maxX &&
-                    tapGesture.location(in: self.view).y+label.fontSize > label.frame.minY &&
-                    tapGesture.location(in: self.view).y+15 < label.frame.maxY {
+                    tapGesture.location(in: self.view).y+label.fontSize > label.frame.minX &&
+                    tapGesture.location(in: self.view).y < label.frame.minX {
 
                     restartGame()
                 }
@@ -207,7 +226,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         obstacleSize = obstacle.size
 
-        coins.append(obstacle)
+        obstacles.append(obstacle)
 
         // Return the new obstacle
         return obstacle
@@ -218,17 +237,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Keep track of the greatest x-position
         var farthestRightObstacleX: CGFloat = 0.0
 
-        for obstacle in coins {
+        for obstacle in obstacles {
 
             let newX = obstacle.position.x - currentScrollAmount
 
-            // If a brick has moved too far left (off the screen), remove it
             if newX < -obstacleSize.width {
 
                 obstacle.removeFromParent()
 
-                if let obstacleIndex = coins.index(of: obstacle) {
-                    coins.remove(at: obstacleIndex)
+                if let obstacleIndex = obstacles.index(of: obstacle) {
+                    obstacles.remove(at: obstacleIndex)
                 }
 
             } else {
@@ -267,12 +285,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // middleLeft(-75,0)
             // middleRight(75,0)
 
-            let ranX = arc4random_uniform(2)
-            let ranY = arc4random_uniform(2)
+            let ranX = arc4random_uniform(3)
+            let ranY = arc4random_uniform(3)
 
             let coinXOffset: [CGFloat] = [-85, 0, 85]
-
-            // because if block is on bottom coin will be too low
             let coinYOffset: [CGFloat] = [-80, 0, 80]
 
             let coinX = coinXOffset[Int(ranX)]
@@ -286,15 +302,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
+    
+    func updateCoins(withScrollAmount currentScrollAmount: CGFloat) {
+        
+        var farthestRightCoinX: CGFloat = 0.0
+        
+        for coin in coins {
+            
+            let newX = coin.position.x - currentScrollAmount
+            
+            if newX < -coinSize.width {
+                
+                coin.removeFromParent()
+                
+                if let coinIndex = coins.index(of: coin) {
+                    coins.remove(at: coinIndex)
+                }
+                
+            } else {
+                
+                coin.position = CGPoint(x: newX, y: coin.position.y)
+                
+                if coin.position.x > farthestRightCoinX {
+                    farthestRightCoinX = coin.position.x
+                }
+            }
+        }
+    }
 
-    func updateCoinsCollected() {
+    func updateCoinsLabel() {
         if let coinsLabel = childNode(withName: "coinsLabel") as? SKLabelNode {
             coinsLabel.text = String(coinsCollected)
         }
-        updateHighScore()
+        updateHighScoreLabel()
     }
     
-    func updateHighScore() {
+    func updateHighScoreLabel() {
         if coinsCollected > highScore {
             if let highScoreLabel = childNode(withName: "highScore") as? SKLabelNode {
                 highScore = coinsCollected
@@ -304,27 +347,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     override func update(_ currentTime: TimeInterval) {
-        var elapsedTime: TimeInterval = 0.0
+        
+        if gameRunning {
+            var elapsedTime: TimeInterval = 0.0
 
-        if let lastTimeStamp = lastUpdateTime {
-            elapsedTime = currentTime - lastTimeStamp
+            if let lastTimeStamp = lastUpdateTime {
+                elapsedTime = currentTime - lastTimeStamp
+            }
+
+            lastUpdateTime = currentTime
+
+            let expectedElapsedTime: TimeInterval = 1.0 / 60.0
+
+            let scrollAdjustment = CGFloat(elapsedTime / expectedElapsedTime)
+            let currentScrollAmount = scrollSpeed * scrollAdjustment
+
+            updateObstacles(withScrollAmount: currentScrollAmount)
+            updateCoins(withScrollAmount: currentScrollAmount)
+            updateCoinsLabel()
         }
-
-        lastUpdateTime = currentTime
-
-        let expectedElapsedTime: TimeInterval = 1.0 / 60.0
-
-        let scrollAdjustment = CGFloat(elapsedTime / expectedElapsedTime)
-        let currentScrollAmount = scrollSpeed * scrollAdjustment
-
-        updateObstacles(withScrollAmount: currentScrollAmount)
-        updateCoinsCollected()
     }
 
     func didBegin(_ contact: SKPhysicsContact) {
 
         if contact.bodyA.categoryBitMask == PhysicsCategory.obstacle &&
             contact.bodyB.categoryBitMask == PhysicsCategory.muncher {
+            
+            muncher.crashedAnimate()
 
             muncher.physicsBody?.affectedByGravity = true
             muncher.physicsBody?.applyForce(CGVector(dx: -20, dy: -10))
@@ -343,8 +392,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             run(coinSound)
             coinsCollected += 1
             scrollSpeed += 0.1
-            print(scrollSpeed)
-            print(coinsCollected)
         }
     }
 }

@@ -35,6 +35,15 @@ class Muncher: SKSpriteNode {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func crashedAnimate() {
+        textureArray.removeAll()
+        for i in 1...2 {
+            let image = "cm_hit_frame-\(i).png"
+            textureArray.append(SKTexture(imageNamed: image))
+        }
+        run(SKAction.repeatForever(SKAction.animate(with: textureArray, timePerFrame: 0.3)))
+    }
 
     func setupPhysicsBody() {
 
