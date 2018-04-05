@@ -258,48 +258,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+        let offsetRange = frame.midY+40 - frame.midY+40
+        let obstacleX = farthestRightObstacleX + (obstacleSize.width * gapBetweenObstacles) + 1.0
+        let obstacleY = arc4random_uniform(UInt32(offsetRange)) + UInt32(frame.midY-40)
 
-        while farthestRightObstacleX < frame.width {
+        let newObstacle = spawnObstacle(atPosition: CGPoint(x: obstacleX, y: CGFloat(obstacleY)))
 
-            let offsetRange = frame.midY+40 - frame.midY+40
-            let obstacleX = farthestRightObstacleX + (obstacleSize.width * gapBetweenObstacles) + 1.0
-            let obstacleY = arc4random_uniform(UInt32(offsetRange)) + UInt32(frame.midY-40)
+        farthestRightObstacleX = newObstacle.position.x
 
-            let newObstacle = spawnObstacle(atPosition: CGPoint(x: obstacleX, y: CGFloat(obstacleY)))
+        // Points for putting coin around the brick ...
 
-            farthestRightObstacleX = newObstacle.position.x
+        // TOP ROWS
+        // topLeft(-75, 80)
+        // topMiddle(0, 80)
+        // topRight(75, 80)
 
-            // Points for putting coin around the brick ...
+        // BOTTOM ROWS
+        // bottomLeft(-75,-80)
+        // bottomMiddle(0,-80)
+        // bottomRight(75,-80)
 
-            // TOP ROWS
-            // topLeft(-75, 80)
-            // topMiddle(0, 80)
-            // topRight(75, 80)
+        // MIDDLE ROWS
+        // middleLeft(-75,0)
+        // middleRight(75,0)
 
-            // BOTTOM ROWS
-            // bottomLeft(-75,-80)
-            // bottomMiddle(0,-80)
-            // bottomRight(75,-80)
+        let ranX = arc4random_uniform(3)
+        let ranY = arc4random_uniform(3)
 
-            // MIDDLE ROWS
-            // middleLeft(-75,0)
-            // middleRight(75,0)
+        let coinXOffset: [CGFloat] = [-85, 0, 85]
+        let coinYOffset: [CGFloat] = [-80, 0, 80]
 
-            let ranX = arc4random_uniform(3)
-            let ranY = arc4random_uniform(3)
+        let coinX = coinXOffset[Int(ranX)]
+        let coinY = coinYOffset[Int(ranY)]
 
-            let coinXOffset: [CGFloat] = [-85, 0, 85]
-            let coinYOffset: [CGFloat] = [-80, 0, 80]
-
-            let coinX = coinXOffset[Int(ranX)]
-            let coinY = coinYOffset[Int(ranY)]
-
-            // A bit of a hack for now to not allow (0,0) only time they are equal
-            if coinX == coinY {
-                _ = spawnCoin(atPosition: CGPoint(x: obstacleX + -85, y: CGFloat(obstacleY + 0)))
-            } else {
-                _ = spawnCoin(atPosition: CGPoint(x: obstacleX + coinX, y: CGFloat(obstacleY) + coinY))
-            }
+        // A bit of a hack for now to not allow (0,0) only time they are equal
+        if coinX == coinY {
+            _ = spawnCoin(atPosition: CGPoint(x: obstacleX + -85, y: CGFloat(obstacleY + 0)))
+        } else {
+            _ = spawnCoin(atPosition: CGPoint(x: obstacleX + coinX, y: CGFloat(obstacleY) + coinY))
         }
     }
     
