@@ -29,7 +29,10 @@ class SplashScene: SKScene {
         addChild(GameTitleLabel(atPosition: CGPoint(x: xMid, y: yMid+100)))
 
         // Add the 'click to play' label
-        addChild(ClickToPlayLabel(atPosition: CGPoint(x: xMid, y: yMid-150)))
+        addChild(ClickToPlayLabel(atPosition: CGPoint(x: xMid, y: yMid-130)))
+        
+        // Add the 'hard' label
+        createDifficultyLabels()
 
         // Add the muncher guy
         let muncher = Muncher(position: CGPoint(x: xMid, y: yMid))
@@ -39,9 +42,31 @@ class SplashScene: SKScene {
         let tapGesture = UITapGestureRecognizer(target: self, action: tapMethod)
         view.addGestureRecognizer(tapGesture)
     }
+    
+    func createDifficultyLabels() {
+        let hardMode = DifficultyLabels()//atPosition: CGPoint(x: frame.minX, y: frame.midY-160))
+        hardMode.createHardModeLabel()
+        hardMode.position.x = frame.midX
+        hardMode.position.y = frame.midY-175
+        addChild(hardMode)
+    }
 
     @objc func handleTap(tapGesture: UITapGestureRecognizer) {
-        goNext(scene: GameScene())
+
+        if let hardLabel = childNode(withName: "hardLabel") as? SKLabelNode {
+
+            if tapGesture.location(in: self.view).x > hardLabel.frame.minX &&
+                tapGesture.location(in: self.view).x < hardLabel.frame.maxX &&
+                tapGesture.location(in: self.view).y+hardLabel.fontSize > hardLabel.frame.midX &&
+                tapGesture.location(in: self.view).y < hardLabel.frame.midX {
+
+                // start in 'hard' mode.
+                goNext(scene: GameScene(Difficulty.hard))
+            } else {
+                // otherwise just start in normal mode.
+                goNext(scene: GameScene(Difficulty.normal))
+            }
+        }
     }
 
     func goNext(scene: SKScene) {

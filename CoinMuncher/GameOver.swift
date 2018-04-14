@@ -30,7 +30,5 @@ class GameOver: SKSpriteNode {
         let finalX = frame.width / 2.0
         let messageAction = SKAction.moveTo(x: finalX, duration: 0.8)
         messageLabel.run(messageAction)
-        
     }
 }
-

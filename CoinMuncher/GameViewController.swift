@@ -30,15 +30,15 @@ class GameViewController: UIViewController {
 
                 // Present the scene
                 view.presentScene(scene)
+            } else {
+                
+                print(" TEST ")
             }
 
             view.ignoresSiblingOrder = true
-
             view.showsFPS = true
             view.showsNodeCount = true
-
         }
-
     }
 
     override var shouldAutorotate: Bool {
@@ -61,5 +61,4 @@ class GameViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-
 }

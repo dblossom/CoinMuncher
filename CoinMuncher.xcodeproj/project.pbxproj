@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6F2BB59D2076776500DB4E16 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2BB59C2076776500DB4E16 /* GameOver.swift */; };
+		6F2BB59F2078068D00DB4E16 /* DifficultyLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2BB59E2078068D00DB4E16 /* DifficultyLabels.swift */; };
+		6F2BB5A1207BE27B00DB4E16 /* Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2BB5A0207BE27B00DB4E16 /* Difficulty.swift */; };
 		6F814B412051CFB000B19A48 /* GameTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F814B402051CFB000B19A48 /* GameTitleLabel.swift */; };
 		6F8AFC2C204B484D00565332 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8AFC2B204B484D00565332 /* AppDelegate.swift */; };
 		6F8AFC2E204B484D00565332 /* SplashScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6F8AFC2D204B484D00565332 /* SplashScene.sks */; };
@@ -47,6 +49,8 @@
 
 /* Begin PBXFileReference section */
 		6F2BB59C2076776500DB4E16 /* GameOver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
+		6F2BB59E2078068D00DB4E16 /* DifficultyLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyLabels.swift; sourceTree = "<group>"; };
+		6F2BB5A0207BE27B00DB4E16 /* Difficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Difficulty.swift; sourceTree = "<group>"; };
 		6F814B402051CFB000B19A48 /* GameTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTitleLabel.swift; sourceTree = "<group>"; };
 		6F8AFC28204B484D00565332 /* CoinMuncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoinMuncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F8AFC2B204B484D00565332 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -126,6 +130,7 @@
 				6F8AFC2D204B484D00565332 /* SplashScene.sks */,
 				6F8AFC2F204B484D00565332 /* Actions.sks */,
 				6F8AFC31204B484D00565332 /* GameScene.swift */,
+				6F2BB5A0207BE27B00DB4E16 /* Difficulty.swift */,
 				6F2BB59C2076776500DB4E16 /* GameOver.swift */,
 				6F8AFC33204B484D00565332 /* GameViewController.swift */,
 				6F8AFC35204B484D00565332 /* Main.storyboard */,
@@ -134,6 +139,7 @@
 				6F8AFC5F204B6BBE00565332 /* SplashScene.swift */,
 				6FE96EF3205354A400BCEB0A /* Obstacle.swift */,
 				6FE96EF12053537800BCEB0A /* ClickToPlayLabel.swift */,
+				6F2BB59E2078068D00DB4E16 /* DifficultyLabels.swift */,
 				6FE329562066B509002B4D13 /* ClickToRestartLabel.swift */,
 				6F814B402051CFB000B19A48 /* GameTitleLabel.swift */,
 				6F8AFC3A204B484D00565332 /* LaunchScreen.storyboard */,
@@ -301,6 +307,7 @@
 				6FE32953206352C0002B4D13 /* Coin.swift in Sources */,
 				6FE96EF02052F30900BCEB0A /* Muncher.swift in Sources */,
 				6F8AFC32204B484D00565332 /* GameScene.swift in Sources */,
+				6F2BB59F2078068D00DB4E16 /* DifficultyLabels.swift in Sources */,
 				6FE96EF22053537800BCEB0A /* ClickToPlayLabel.swift in Sources */,
 				6F8AFC60204B6BBE00565332 /* SplashScene.swift in Sources */,
 				6F8AFC34204B484D00565332 /* GameViewController.swift in Sources */,
@@ -309,6 +316,7 @@
 				6FE96EF4205354A400BCEB0A /* Obstacle.swift in Sources */,
 				6F8AFC2C204B484D00565332 /* AppDelegate.swift in Sources */,
 				6FE329572066B509002B4D13 /* ClickToRestartLabel.swift in Sources */,
+				6F2BB5A1207BE27B00DB4E16 /* Difficulty.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

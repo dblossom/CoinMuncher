@@ -38,7 +38,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lastUpdateTime: TimeInterval?
 
     var gameRunning = false
-
+    
+    var difficulty: Difficulty = Difficulty.normal
+    
+    init(_ difficulty: Difficulty) {
+        super.init()
+        self.difficulty = difficulty
+        //super.init()
+    }
+    
+    override init(size: CGSize) {
+        super.init(size: size)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func didMove(to view: SKView) {
         startGame()
     }
@@ -61,6 +77,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         cleanupObstacles()
         cleanupCoins()
+        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+//            self.gameRunning = true
+//        }
         gameRunning = true
     }
 
@@ -130,10 +150,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func gameOver() {
-        gameRunning = false
-        scrollSpeed = 0
-        gameOverBackground()
-        restartLabel()
+        if gameRunning {
+            gameRunning = false
+            scrollSpeed = 0
+            gameOverBackground()
+            restartLabel()
+        }
     }
     
     func gameOverBackground() {
@@ -181,6 +203,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if !gameRunning {
 
             if let label = childNode(withName: "restartLabel") as? SKLabelNode {
+                
+                print(tapGesture.location(in: self.view))
 
                 // This is werid --
                 // if tap is > minX and < maxX for X-axis we are good
@@ -234,7 +258,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func updateObstacles(withScrollAmount currentScrollAmount: CGFloat) {
 
-        // Keep track of the greatest x-position
         var farthestRightObstacleX: CGFloat = 0.0
 
         for obstacle in obstacles {
@@ -263,7 +286,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let obstacleY = arc4random_uniform(UInt32(offsetRange)) + UInt32(frame.midY-40)
 
         let newObstacle = spawnObstacle(atPosition: CGPoint(x: obstacleX, y: CGFloat(obstacleY)))
-
+//let newObstacle = spawnObstacle(atPosition: CGPoint(x: frame.width, y: CGFloat(obstacleY)))
         farthestRightObstacleX = newObstacle.position.x
 
         // Points for putting coin around the brick ...
@@ -376,6 +399,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             gameOver()
         }
+        
+        if difficulty == Difficulty.hard &&
+            contact.bodyA.categoryBitMask == PhysicsCategory.ground {
+            
+            gameOver()
+        }
+
+        print("bodyA: \(contact.bodyA.categoryBitMask)")
+        print("bodyB: \(contact.bodyB.categoryBitMask)")
+        
+        print("PhysicsCategory_muncher: \(PhysicsCategory.muncher)")
+        print("PhysicsCategory_obstacle: \(PhysicsCategory.obstacle)")
+        print("PhysicsCategory_coin: \(PhysicsCategory.coin)")
+        print("PhysicsCategory_ground: \(PhysicsCategory.ground)")
 
         if contact.bodyA.categoryBitMask == PhysicsCategory.coin &&
             contact.bodyB.categoryBitMask == PhysicsCategory.muncher {
