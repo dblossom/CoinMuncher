@@ -28,6 +28,7 @@
 		6FE96EF02052F30900BCEB0A /* Muncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE96EEF2052F30900BCEB0A /* Muncher.swift */; };
 		6FE96EF22053537800BCEB0A /* ClickToPlayLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE96EF12053537800BCEB0A /* ClickToPlayLabel.swift */; };
 		6FE96EF4205354A400BCEB0A /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE96EF3205354A400BCEB0A /* Obstacle.swift */; };
+		6FEAC9D32083C71200E40147 /* crash.sks in Resources */ = {isa = PBXBuildFile; fileRef = 6FEAC9D22083C71200E40147 /* crash.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,7 @@
 		6FE96EEF2052F30900BCEB0A /* Muncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Muncher.swift; sourceTree = "<group>"; };
 		6FE96EF12053537800BCEB0A /* ClickToPlayLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickToPlayLabel.swift; sourceTree = "<group>"; };
 		6FE96EF3205354A400BCEB0A /* Obstacle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
+		6FEAC9D22083C71200E40147 /* crash.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = crash.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 		6F8AFC1F204B484D00565332 = {
 			isa = PBXGroup;
 			children = (
+				6FEAC9D22083C71200E40147 /* crash.sks */,
 				6F8AFC2A204B484D00565332 /* CoinMuncher */,
 				6F8AFC45204B484D00565332 /* CoinMuncherTests */,
 				6F8AFC50204B484E00565332 /* CoinMuncherUITests */,
@@ -276,6 +279,7 @@
 			files = (
 				6FE329552066AFD8002B4D13 /* coin10.wav in Resources */,
 				6F8AFC37204B484D00565332 /* Main.storyboard in Resources */,
+				6FEAC9D32083C71200E40147 /* crash.sks in Resources */,
 				6F8AFC2E204B484D00565332 /* SplashScene.sks in Resources */,
 				6F8AFC39204B484D00565332 /* Assets.xcassets in Resources */,
 				6F8AFC3C204B484D00565332 /* LaunchScreen.storyboard in Resources */,

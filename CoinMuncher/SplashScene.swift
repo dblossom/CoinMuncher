@@ -24,6 +24,9 @@ class SplashScene: SKScene {
         background.position = CGPoint(x: xMid, y: yMid)
         background.zPosition = 0
         addChild(background)
+        
+        // Add my name for credit
+        createNameCreditLabel()
 
         // Add the 'coin muncher' label
         addChild(GameTitleLabel(atPosition: CGPoint(x: xMid, y: yMid+100)))
@@ -44,11 +47,21 @@ class SplashScene: SKScene {
     }
     
     func createDifficultyLabels() {
-        let hardMode = DifficultyLabels()//atPosition: CGPoint(x: frame.minX, y: frame.midY-160))
+        let hardMode = DifficultyLabels()
         hardMode.createHardModeLabel()
         hardMode.position.x = frame.midX
         hardMode.position.y = frame.midY-175
         addChild(hardMode)
+    }
+    
+    func createNameCreditLabel() {
+        let creditNameNode = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
+        creditNameNode.position = CGPoint(x:frame.midX , y:frame.midY+65)
+        creditNameNode.text = "By Dan Blossom"
+        creditNameNode.fontSize = 14
+        creditNameNode.fontColor = SKColor.black
+        creditNameNode.zPosition = 5
+        addChild(creditNameNode)
     }
 
     @objc func handleTap(tapGesture: UITapGestureRecognizer) {

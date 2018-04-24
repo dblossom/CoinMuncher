@@ -45,6 +45,27 @@ class Muncher: SKSpriteNode {
         run(SKAction.repeatForever(SKAction.animate(with: textureArray, timePerFrame: 0.3)))
     }
 
+    func crashSmoke() {
+        
+        // Find the sparks emitter file in the project's bundle
+        let bundle = Bundle.main
+        
+        if let crashPath = bundle.path(forResource: "crash", ofType: "sks") {
+            
+            // Create a Sparks emitter node
+            let crashNode = NSKeyedUnarchiver.unarchiveObject (withFile: crashPath) as! SKEmitterNode
+            crashNode.position = CGPoint(x: 0.0, y: -50.0)
+            addChild(crashNode)
+            
+            // Run an action to wait half a second and then remove the emitter
+            let waitAction = SKAction.wait(forDuration: 0.5)
+            let removeAction = SKAction.removeFromParent()
+            let waitThenRemove = SKAction.sequence([waitAction, removeAction])
+            
+            crashNode.run(waitThenRemove)
+        }
+    }
+
     func setupPhysicsBody() {
 
         physicsBody = SKPhysicsBody(circleOfRadius: max(self.size.width / 2, self.size.height / 2))

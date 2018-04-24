@@ -44,7 +44,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     init(_ difficulty: Difficulty) {
         super.init()
         self.difficulty = difficulty
-        //super.init()
     }
     
     override init(size: CGSize) {
@@ -62,6 +61,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startGame() {
         setupPhysics()
         setupMuncher()
+
+        retrieveHighScore()
+
         setupCoinsCollectedLabels()
         setupHighScoreLabel()
         setupBackground()
@@ -77,11 +79,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         cleanupObstacles()
         cleanupCoins()
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-//            self.gameRunning = true
-//        }
+
         gameRunning = true
+    }
+
+    func retrieveHighScore() {
+        let userDefined = UserDefaults.standard
+        if let highscore = userDefined.object(forKey: "highscore") as? Int {
+            highScore = highscore
+        }
     }
 
     func setupMuncher() {
@@ -155,6 +161,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             scrollSpeed = 0
             gameOverBackground()
             restartLabel()
+            UserDefaults.standard.set(highScore, forKey: "highscore")
         }
     }
     
@@ -204,7 +211,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             if let label = childNode(withName: "restartLabel") as? SKLabelNode {
                 
-                print(tapGesture.location(in: self.view))
+                // Uncomment for debugging of where I am clicking
+                //print(tapGesture.location(in: self.view))
 
                 // This is werid --
                 // if tap is > minX and < maxX for X-axis we are good
@@ -337,7 +345,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if let coinIndex = coins.index(of: coin) {
                     coins.remove(at: coinIndex)
                 }
-                
+
+                if coinsCollected > 0 {
+                    gameOver()
+                }
+
             } else {
                 
                 coin.position = CGPoint(x: newX, y: coin.position.y)
@@ -393,6 +405,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             contact.bodyB.categoryBitMask == PhysicsCategory.muncher {
             
             muncher.crashedAnimate()
+            muncher.crashSmoke()
 
             muncher.physicsBody?.affectedByGravity = true
             muncher.physicsBody?.applyForce(CGVector(dx: -20, dy: -10))
@@ -402,17 +415,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if difficulty == Difficulty.hard &&
             contact.bodyA.categoryBitMask == PhysicsCategory.ground {
-            
+
             gameOver()
         }
-
-        print("bodyA: \(contact.bodyA.categoryBitMask)")
-        print("bodyB: \(contact.bodyB.categoryBitMask)")
-        
-        print("PhysicsCategory_muncher: \(PhysicsCategory.muncher)")
-        print("PhysicsCategory_obstacle: \(PhysicsCategory.obstacle)")
-        print("PhysicsCategory_coin: \(PhysicsCategory.coin)")
-        print("PhysicsCategory_ground: \(PhysicsCategory.ground)")
 
         if contact.bodyA.categoryBitMask == PhysicsCategory.coin &&
             contact.bodyB.categoryBitMask == PhysicsCategory.muncher {
@@ -424,7 +429,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             run(coinSound)
             coinsCollected += 1
-            scrollSpeed += 0.1
+            if difficulty == Difficulty.hard {
+                scrollSpeed += 0.5
+            } else {
+                scrollSpeed += 0.1
+            }
         }
     }
 }
