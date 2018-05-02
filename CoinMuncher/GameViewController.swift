@@ -34,7 +34,7 @@ class GameViewController: UIViewController {
                 // Present the scene
                 view.presentScene(scene)
             } else {
-                
+
                 print(" TEST ")
             }
 

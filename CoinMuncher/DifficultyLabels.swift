@@ -10,7 +10,7 @@ import SpriteKit
 
 /* a class for the difficulty labels */
 class DifficultyLabels: SKLabelNode {
-    
+
     func createHardModeLabel() {
         self.fontName = "AmericanTypewriter-Bold"
         self.text = "Hard Mode"
@@ -19,5 +19,5 @@ class DifficultyLabels: SKLabelNode {
         self.fontColor = SKColor.black
         self.zPosition = 5
     }
-    
+
 }

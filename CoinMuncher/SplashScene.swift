@@ -24,7 +24,7 @@ class SplashScene: SKScene {
         background.position = CGPoint(x: xMid, y: yMid)
         background.zPosition = 0
         addChild(background)
-        
+
         // Add my name for credit
         createNameCreditLabel()
 
@@ -33,7 +33,7 @@ class SplashScene: SKScene {
 
         // Add the 'click to play' label
         addChild(ClickToPlayLabel(atPosition: CGPoint(x: xMid, y: yMid-130)))
-        
+
         // Add the 'hard' label
         createDifficultyLabels()
 
@@ -58,7 +58,7 @@ class SplashScene: SKScene {
 /* function to put my name on for credit - eh. :) */
     func createNameCreditLabel() {
         let creditNameNode = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
-        creditNameNode.position = CGPoint(x:frame.midX , y:frame.midY+65)
+        creditNameNode.position = CGPoint(x: frame.midX, y: frame.midY+65)
         creditNameNode.text = "By Dan Blossom"
         creditNameNode.fontSize = 14
         creditNameNode.fontColor = SKColor.black
@@ -95,7 +95,7 @@ class SplashScene: SKScene {
             let height = view.bounds.height
             scene.size = CGSize(width: width, height: height)
 
-            let reveal = SKTransition.crossFade(withDuration: 5)
+            let reveal = SKTransition.crossFade(withDuration: 3)
             view.presentScene(scene, transition: reveal)
             view.ignoresSiblingOrder = true
 

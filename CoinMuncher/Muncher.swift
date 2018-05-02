@@ -63,22 +63,22 @@ class Muncher: SKSpriteNode {
     /* this will push out a little smoke when called, for this games purpose
        it will push out smoke when he hits the block obstacle */
     func crashSmoke() {
-        
+
         // Find the sparks emitter file in the project's bundle
         let bundle = Bundle.main
-        
+
         if let crashPath = bundle.path(forResource: "crash", ofType: "sks") {
-            
+
             // Create emitter node
             let crashNode = NSKeyedUnarchiver.unarchiveObject (withFile: crashPath) as! SKEmitterNode
             crashNode.position = CGPoint(x: 0.0, y: -50.0)
             addChild(crashNode)
-            
+
             // Run an action to wait half a second and then remove the emitter
             let waitAction = SKAction.wait(forDuration: 0.5)
             let removeAction = SKAction.removeFromParent()
             let waitThenRemove = SKAction.sequence([waitAction, removeAction])
-            
+
             crashNode.run(waitThenRemove)
         }
     }

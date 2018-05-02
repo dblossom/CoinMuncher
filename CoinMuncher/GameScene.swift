@@ -31,7 +31,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var coins = [SKSpriteNode]()
     // set width / height to zero
     var coinSize = CGSize.zero
-    
+
     // Sound made when collecting a coind
     let coinSound = SKAction.playSoundFileNamed("coin10.wav", waitForCompletion: false)
 
@@ -53,7 +53,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scrollSpeed: CGFloat = 1.0
     // the starting speed
     let startingScrollSpeed: CGFloat = 1.0
-    
+
     // how fast is gravity / downward pull
     let gravitySpeed: CGFloat = 0.5
 
@@ -93,10 +93,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startGame() {
         // gets the physics setup for the scene
         setupPhysics()
-        
+
         // sets up our flying guy
         setupMuncher()
-        
+
         // if a highscore is saved, grab it
         retrieveHighScore()
 
@@ -130,7 +130,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /* function to get the high schore */
     func retrieveHighScore() {
         let userDefined = UserDefaults.standard
-        
+
         // if the highscore exists, override the previous highscore
         if let highscore = userDefined.object(forKey: "highscore") as? Int {
             highScore = highscore
@@ -282,9 +282,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         // Not my favorite solution - but - it will set the text based on
         // what the difficulty isn't.
-        if(difficulty == Difficulty.normal) {
+        if difficulty == Difficulty.normal {
             switchDL.text = "Switch to Hard Mode"
-        }else if(difficulty == Difficulty.hard) {
+        } else if difficulty == Difficulty.hard {
             switchDL.text = "Switch to Normal Mode"
         }
         addChild(switchDL)
@@ -295,7 +295,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // clear everything
         self.removeAllActions()
         self.removeAllChildren()
-        
+
         // reset the coins label (could do this in start?)
         coinsCollected = 0
         // run the startGame() function to take actions to setup the game
@@ -349,7 +349,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     // if so, swap the difficulty before restarting
                     if difficulty == Difficulty.normal {
                         difficulty = Difficulty.hard
-                    }else{
+                    } else {
                         difficulty = Difficulty.normal
                     }
                     // restart game.
@@ -412,13 +412,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /* function that updates the obstacles ... adds new and "moves" others across screen */
     func updateObstacles(withScrollAmount currentScrollAmount: CGFloat) {
 
-        var farthestRightObstacleX: CGFloat = 0.0
+        var farthestRightObstacleX: CGFloat = frame.maxX + 30
 
         for obstacle in obstacles {
 
             let newX = obstacle.position.x - currentScrollAmount
 
-            if newX < -obstacleSize.width {
+            if newX < frame.minX {
 
                 obstacle.removeFromParent()
 
@@ -435,60 +435,59 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
-        let offsetRange = frame.midY+40 - frame.midY+40
-        let obstacleX = farthestRightObstacleX + (obstacleSize.width * gapBetweenObstacles) + 1.0
-        let obstacleY = arc4random_uniform(UInt32(offsetRange)) + UInt32(frame.midY-40)
 
-        let newObstacle = spawnObstacle(atPosition: CGPoint(x: obstacleX, y: CGFloat(obstacleY)))
-//let newObstacle = spawnObstacle(atPosition: CGPoint(x: frame.width, y: CGFloat(obstacleY)))
-        farthestRightObstacleX = newObstacle.position.x
+        // this controls the node population, other wise, it will spawn TONS of unneeded nodes
+        // trying to be memory responsible - even 10 is kind of high, 5 would probably do it.
+        // an even better, for next "performance enhancement" might be to spawn a new one everytime
+        // we remove one -- so start with say 10, then everytime we remove one, spawn a new one in back
+        // code would look cleaner too I bet....
+        if obstacles.count < 10 {
+            let offsetRange = frame.midY+40 - frame.midY+40
+            let obstacleX = farthestRightObstacleX + (obstacleSize.width * gapBetweenObstacles) + 1.0
+            let obstacleY = arc4random_uniform(UInt32(offsetRange)) + UInt32(frame.midY-40)
 
-        // Points for putting coin around the brick ...
+            let newObstacle = spawnObstacle(atPosition: CGPoint(x: obstacleX, y: CGFloat(obstacleY)))
 
-        // TOP ROWS
-        // topLeft(-75, 80)
-        // topMiddle(0, 80)
-        // topRight(75, 80)
+            farthestRightObstacleX = newObstacle.position.x
 
-        // BOTTOM ROWS
-        // bottomLeft(-75,-80)
-        // bottomMiddle(0,-80)
-        // bottomRight(75,-80)
+            // Points for putting coin around the brick ...
+            // TOP ROWS: topLeft(-75, 80) topMiddle(0, 80) topRight(75, 80)
 
-        // MIDDLE ROWS
-        // middleLeft(-75,0)
-        // middleRight(75,0)
+            // BOTTOM ROWS: bottomLeft(-75,-80) bottomMiddle(0,-80) bottomRight(75,-80)
 
-        let ranX = arc4random_uniform(3)
-        let ranY = arc4random_uniform(3)
+            // MIDDLE ROWS: middleLeft(-75,0) middleRight(75,0)
 
-        let coinXOffset: [CGFloat] = [-85, 0, 85]
-        let coinYOffset: [CGFloat] = [-80, 0, 80]
+            let ranX = arc4random_uniform(3)
+            let ranY = arc4random_uniform(3)
 
-        let coinX = coinXOffset[Int(ranX)]
-        let coinY = coinYOffset[Int(ranY)]
+            let coinXOffset: [CGFloat] = [-85, 0, 85]
+            let coinYOffset: [CGFloat] = [-80, 0, 80]
 
-        // A bit of a hack for now to not allow (0,0) only time they are equal
-        if coinX == coinY {
-            _ = spawnCoin(atPosition: CGPoint(x: obstacleX + -85, y: CGFloat(obstacleY + 0)))
-        } else {
-            _ = spawnCoin(atPosition: CGPoint(x: obstacleX + coinX, y: CGFloat(obstacleY) + coinY))
+            let coinX = coinXOffset[Int(ranX)]
+            let coinY = coinYOffset[Int(ranY)]
+
+            // A bit of a hack for now to not allow (0,0) only time they are equal
+            if coinX == coinY {
+                _ = spawnCoin(atPosition: CGPoint(x: obstacleX + -85, y: CGFloat(obstacleY + 0)))
+            } else {
+                _ = spawnCoin(atPosition: CGPoint(x: obstacleX + coinX, y: CGFloat(obstacleY) + coinY))
+            }
         }
     }
 
     /* function to update the coins - spawn new, remove and "scroll them" */
     func updateCoins(withScrollAmount currentScrollAmount: CGFloat) {
-        
-        var farthestRightCoinX: CGFloat = 0.0
-        
+
+        var farthestRightCoinX: CGFloat = frame.maxX + 30
+
         for coin in coins {
-            
+
             let newX = coin.position.x - currentScrollAmount
-            
-            if newX < -coinSize.width {
-                
+
+            if newX < frame.minX {
+
                 coin.removeFromParent()
-                
+
                 if let coinIndex = coins.index(of: coin) {
                     coins.remove(at: coinIndex)
                 }
@@ -498,9 +497,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
 
             } else {
-                
+
                 coin.position = CGPoint(x: newX, y: coin.position.y)
-                
+
                 if coin.position.x > farthestRightCoinX {
                     farthestRightCoinX = coin.position.x
                 }
