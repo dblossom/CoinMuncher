@@ -52,7 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // how fast the blocks are scrolling
     var scrollSpeed: CGFloat = 1.0
     // the starting speed
-    let startingScrollSpeed: CGFloat = 1.0
+    let startingScrollSpeed: CGFloat = 3.0
 
     // how fast is gravity / downward pull
     let gravitySpeed: CGFloat = 0.5
@@ -412,7 +412,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /* function that updates the obstacles ... adds new and "moves" others across screen */
     func updateObstacles(withScrollAmount currentScrollAmount: CGFloat) {
 
-        var farthestRightObstacleX: CGFloat = frame.maxX + 30
+        var farthestRightObstacleX: CGFloat = frame.maxX
 
         for obstacle in obstacles {
 
@@ -478,7 +478,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /* function to update the coins - spawn new, remove and "scroll them" */
     func updateCoins(withScrollAmount currentScrollAmount: CGFloat) {
 
-        var farthestRightCoinX: CGFloat = frame.maxX + 30
+        var farthestRightCoinX: CGFloat = frame.maxX
 
         for coin in coins {
 
@@ -530,24 +530,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         // we only want to run the update if the game state is running.
         if gameRunning {
-            var elapsedTime: TimeInterval = 0.0
-
-            // calculate elapsed time
-            if let lastTimeStamp = lastUpdateTime {
-                elapsedTime = currentTime - lastTimeStamp
-            }
-
-            // update the last time it was update with 'now'
-            lastUpdateTime = currentTime
-
-            let expectedElapsedTime: TimeInterval = 1.0 / 60.0
-
-            let scrollAdjustment = CGFloat(elapsedTime / expectedElapsedTime)
-            let currentScrollAmount = scrollSpeed * scrollAdjustment
 
             // here we update the obstacles and coins so they 'scroll'
-            updateObstacles(withScrollAmount: currentScrollAmount)
-            updateCoins(withScrollAmount: currentScrollAmount)
+            print(scrollSpeed)
+            updateObstacles(withScrollAmount: scrollSpeed)
+            updateCoins(withScrollAmount: scrollSpeed)
 
             // update score
             updateCoinsLabel()
@@ -605,9 +592,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             // increase the scroll speed depending on difficulty
             if difficulty == Difficulty.hard {
-                scrollSpeed += 0.5
+                scrollSpeed += 0.7
             } else {
-                scrollSpeed += 0.1
+                scrollSpeed += 0.5
             }
         }
     }
