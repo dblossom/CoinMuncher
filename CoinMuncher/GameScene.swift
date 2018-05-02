@@ -532,7 +532,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if gameRunning {
 
             // here we update the obstacles and coins so they 'scroll'
-            print(scrollSpeed)
             updateObstacles(withScrollAmount: scrollSpeed)
             updateCoins(withScrollAmount: scrollSpeed)
 
