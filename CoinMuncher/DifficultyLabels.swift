@@ -8,6 +8,7 @@
 
 import SpriteKit
 
+/* a class for the difficulty labels */
 class DifficultyLabels: SKLabelNode {
     
     func createHardModeLabel() {

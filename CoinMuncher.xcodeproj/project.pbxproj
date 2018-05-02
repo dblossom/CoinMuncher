@@ -22,8 +22,10 @@
 		6F8AFC47204B484D00565332 /* CoinMuncherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8AFC46204B484D00565332 /* CoinMuncherTests.swift */; };
 		6F8AFC52204B484E00565332 /* CoinMuncherUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8AFC51204B484E00565332 /* CoinMuncherUITests.swift */; };
 		6F8AFC60204B6BBE00565332 /* SplashScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8AFC5F204B6BBE00565332 /* SplashScene.swift */; };
+		6FCCA170209950B5000D85BB /* Jump.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6FCCA16F209950B4000D85BB /* Jump.wav */; };
+		6FCCA173209950CA000D85BB /* coin10.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6FCCA171209950C9000D85BB /* coin10.wav */; };
+		6FCCA174209950CA000D85BB /* Explosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6FCCA172209950C9000D85BB /* Explosion.wav */; };
 		6FE32953206352C0002B4D13 /* Coin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE32952206352C0002B4D13 /* Coin.swift */; };
-		6FE329552066AFD8002B4D13 /* coin10.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6FE329542066AFD7002B4D13 /* coin10.wav */; };
 		6FE329572066B509002B4D13 /* ClickToRestartLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE329562066B509002B4D13 /* ClickToRestartLabel.swift */; };
 		6FE96EF02052F30900BCEB0A /* Muncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE96EEF2052F30900BCEB0A /* Muncher.swift */; };
 		6FE96EF22053537800BCEB0A /* ClickToPlayLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FE96EF12053537800BCEB0A /* ClickToPlayLabel.swift */; };
@@ -70,8 +72,10 @@
 		6F8AFC51204B484E00565332 /* CoinMuncherUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinMuncherUITests.swift; sourceTree = "<group>"; };
 		6F8AFC53204B484E00565332 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6F8AFC5F204B6BBE00565332 /* SplashScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScene.swift; sourceTree = "<group>"; };
+		6FCCA16F209950B4000D85BB /* Jump.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Jump.wav; sourceTree = "<group>"; };
+		6FCCA171209950C9000D85BB /* coin10.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = coin10.wav; sourceTree = "<group>"; };
+		6FCCA172209950C9000D85BB /* Explosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Explosion.wav; sourceTree = "<group>"; };
 		6FE32952206352C0002B4D13 /* Coin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coin.swift; sourceTree = "<group>"; };
-		6FE329542066AFD7002B4D13 /* coin10.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = coin10.wav; path = ../../../Downloads/soundpack/coin/coin10.wav; sourceTree = "<group>"; };
 		6FE329562066B509002B4D13 /* ClickToRestartLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickToRestartLabel.swift; sourceTree = "<group>"; };
 		6FE96EEF2052F30900BCEB0A /* Muncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Muncher.swift; sourceTree = "<group>"; };
 		6FE96EF12053537800BCEB0A /* ClickToPlayLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickToPlayLabel.swift; sourceTree = "<group>"; };
@@ -112,7 +116,9 @@
 				6F8AFC45204B484D00565332 /* CoinMuncherTests */,
 				6F8AFC50204B484E00565332 /* CoinMuncherUITests */,
 				6F8AFC29204B484D00565332 /* Products */,
-				6FE329542066AFD7002B4D13 /* coin10.wav */,
+				6FCCA16F209950B4000D85BB /* Jump.wav */,
+				6FCCA171209950C9000D85BB /* coin10.wav */,
+				6FCCA172209950C9000D85BB /* Explosion.wav */,
 			);
 			sourceTree = "<group>";
 		};
@@ -277,10 +283,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6FE329552066AFD8002B4D13 /* coin10.wav in Resources */,
+				6FCCA173209950CA000D85BB /* coin10.wav in Resources */,
 				6F8AFC37204B484D00565332 /* Main.storyboard in Resources */,
 				6FEAC9D32083C71200E40147 /* crash.sks in Resources */,
+				6FCCA170209950B5000D85BB /* Jump.wav in Resources */,
 				6F8AFC2E204B484D00565332 /* SplashScene.sks in Resources */,
+				6FCCA174209950CA000D85BB /* Explosion.wav in Resources */,
 				6F8AFC39204B484D00565332 /* Assets.xcassets in Resources */,
 				6F8AFC3C204B484D00565332 /* LaunchScreen.storyboard in Resources */,
 				6F8AFC30204B484D00565332 /* Actions.sks in Resources */,

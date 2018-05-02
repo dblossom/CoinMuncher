@@ -45,7 +45,8 @@ class SplashScene: SKScene {
         let tapGesture = UITapGestureRecognizer(target: self, action: tapMethod)
         view.addGestureRecognizer(tapGesture)
     }
-    
+
+    /* function to create a label for the game difficulty */
     func createDifficultyLabels() {
         let hardMode = DifficultyLabels()
         hardMode.createHardModeLabel()
@@ -53,7 +54,8 @@ class SplashScene: SKScene {
         hardMode.position.y = frame.midY-175
         addChild(hardMode)
     }
-    
+
+/* function to put my name on for credit - eh. :) */
     func createNameCreditLabel() {
         let creditNameNode = SKLabelNode(fontNamed: "AmericanTypewriter-Bold")
         creditNameNode.position = CGPoint(x:frame.midX , y:frame.midY+65)
@@ -66,6 +68,7 @@ class SplashScene: SKScene {
 
     @objc func handleTap(tapGesture: UITapGestureRecognizer) {
 
+        // did we click on the hard label?
         if let hardLabel = childNode(withName: "hardLabel") as? SKLabelNode {
 
             if tapGesture.location(in: self.view).x > hardLabel.frame.minX &&
@@ -73,7 +76,7 @@ class SplashScene: SKScene {
                 tapGesture.location(in: self.view).y+hardLabel.fontSize > hardLabel.frame.midX &&
                 tapGesture.location(in: self.view).y < hardLabel.frame.midX {
 
-                // start in 'hard' mode.
+                // if we did then - start in 'hard' mode.
                 goNext(scene: GameScene(Difficulty.hard))
             } else {
                 // otherwise just start in normal mode.
@@ -82,6 +85,7 @@ class SplashScene: SKScene {
         }
     }
 
+    /* starts the game */
     func goNext(scene: SKScene) {
         if let view = self.view {
 

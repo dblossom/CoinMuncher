@@ -15,7 +15,10 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // put the 'muncher' images in an arry to animate.
         let imgArray = ["cm_frame-1.png", "cm_frame-2.png", "cm_frame-3.png", "cm_frame-4.png"]
+
+        // to put the images in from the array
         var images: [UIImage] = []
 
         for i in 0..<imgArray.count {

@@ -8,6 +8,8 @@
 
 import SpriteKit
 
+/* sets the game difficulty, right now just normal and hard
+   easy is for future enhancements */
 enum Difficulty {
     case easy
     case normal

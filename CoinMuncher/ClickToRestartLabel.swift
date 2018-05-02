@@ -8,6 +8,7 @@
 
 import SpriteKit
 
+/* A class for the restart label */
 class ClickToRestartLabel: SKLabelNode {
 
     init(atPosition: CGPoint) {

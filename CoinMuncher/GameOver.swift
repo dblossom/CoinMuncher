@@ -8,6 +8,7 @@
 
 import SpriteKit
 
+/* Class to manage the GameOver overlay */
 class GameOver: SKSpriteNode {
 
     func display(message: String) {

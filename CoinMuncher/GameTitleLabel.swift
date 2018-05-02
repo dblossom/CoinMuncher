@@ -8,6 +8,7 @@
 
 import SpriteKit
 
+/* A class for the game title label */
 class GameTitleLabel: SKLabelNode {
 
     init(atPosition: CGPoint) {

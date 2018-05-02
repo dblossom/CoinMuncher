@@ -8,6 +8,7 @@
 
 import SpriteKit
 
+/* A class for the click to play label */
 class ClickToPlayLabel: SKLabelNode {
 
     init(atPosition: CGPoint) {
