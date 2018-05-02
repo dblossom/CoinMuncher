@@ -491,11 +491,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if let coinIndex = coins.index(of: coin) {
                     coins.remove(at: coinIndex)
                 }
-
-                if coinsCollected > 0 {
-                    gameOver()
-                }
-
+                // if you miss a coin, even the first, game over, sorry, not sorry.
+                gameOver()
             } else {
 
                 coin.position = CGPoint(x: newX, y: coin.position.y)
