@@ -412,7 +412,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /* function that updates the obstacles ... adds new and "moves" others across screen */
     func updateObstacles(withScrollAmount currentScrollAmount: CGFloat) {
 
-        var farthestRightObstacleX: CGFloat = frame.maxX
+        var farthestRightObstacleX: CGFloat = frame.maxX - 300
 
         for obstacle in obstacles {
 
@@ -478,7 +478,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /* function to update the coins - spawn new, remove and "scroll them" */
     func updateCoins(withScrollAmount currentScrollAmount: CGFloat) {
 
-        var farthestRightCoinX: CGFloat = frame.maxX
+        var farthestRightCoinX: CGFloat = frame.maxX - 300
 
         for coin in coins {
 
